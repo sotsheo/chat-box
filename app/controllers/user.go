@@ -2,12 +2,11 @@ package controllers
 
 import (
 	"chat-box/app/configs"
+	"chat-box/app/models"
 	"chat-box/app/services"
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 )
 
 type UserController struct {
@@ -17,13 +16,13 @@ var userService = services.UserService{}
 
 func (us *UserController) Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		// userService.Register()
-		password := "abc1234!"
-		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-		if err != nil {
-			fmt.Println("Lỗi khi băm mật khẩu:", err)
-			return
-		}
+		userService.Register(
+			models.UserModels{
+				ID:    1,
+				Email: "thanhnv.k59httt@gmail.com",
+				Pw:    "abc1234!",
+			},
+		)
 		http.ServeFile(c.Writer, c.Request, configs.PathResource+"signin.html")
 	}
 }
